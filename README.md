@@ -1,208 +1,499 @@
-# 🏦 Bank Customer Churn Prediction
+# 🏦 Bank Customer Churn Decision Support System
 
-This project is a comprehensive system that predicts the likelihood of bank customers leaving using machine learning algorithms. The project includes data analysis, model training, and a user-friendly GUI interface.
+An end-to-end machine learning solution designed to predict customer churn in the banking sector and provide actionable business insights through explainable AI, model serving APIs, and interactive analytics dashboards.
 
-## 📋 Table of Contents
+---
 
-- [About the Project](#-about-the-project)
-- [Features](#-features)
-- [Technologies](#-technologies)
-- [Installation](#-installation)
-- [Usage](#-usage)
-- [Dataset](#-dataset)
-- [Model Performance](#-model-performance)
-- [Project Structure](#-project-structure)
-- [Technical Details](#-technical-details)
-- [Results](#-results)
-- [Future Improvements](#-future-improvements)
-- [Contributing](#-contributing)
-- [License](#-license)
-- [Contact](#-contact)
+# 🎯 Project Objective
 
-## 🎯 About the Project
+This project is designed to demonstrate competencies across three key professional roles:
 
-This project compares various machine learning algorithms to predict future customer behavior and selects the best performing model. The system analyzes customer data to determine which customers are most likely to leave the bank.
+* **Data Scientist** → Advanced predictive modeling, explainability, and model evaluation
+* **Machine Learning Engineer** → Model deployment, API development, and containerization
+* **Data Analyst** → Business intelligence, visualization, and decision support dashboards
 
-### 🎯 Main Objectives
-- Predict customer churn in advance
-- Identify customers at risk
-- Develop customer satisfaction improvement strategies
-- Optimize bank operations
+---
 
-## ✨ Features
+# 🏗️ System Architecture
 
-### 🔍 Data Analysis
-- **Missing Data Control**: Detection of missing values in the dataset
-- **Statistical Analysis**: Detailed statistical summary of the dataset
-- **Visualization**: Effective charts with Seaborn and Matplotlib
-- **Data Cleaning**: Removal of unnecessary columns
-
-### 🤖 Machine Learning
-- **6 Different Algorithms**: Logistic Regression, SVM, KNN, Decision Tree, Random Forest, Gradient Boosting
-- **SMOTE Technique**: Balancing of imbalanced dataset
-- **Feature Scaling**: Data normalization with StandardScaler
-- **Model Comparison**: Algorithm comparison with performance metrics
-
-### 🖥️ User Interface
-- **Tkinter GUI**: User-friendly graphical interface
-- **Real-time Prediction**: Instant customer churn prediction
-- **Error Management**: Comprehensive error control and user notifications
-- **Model Persistence**: Saving and loading of trained models
-
-## 🛠️ Technologies
-
-### 📊 Data Processing
-- **Pandas**: Data manipulation and analysis
-- **NumPy**: Numerical computations
-- **Scikit-learn**: Machine learning algorithms
-- **Imbalanced-learn**: Imbalanced dataset processing
-
-### 📈 Visualization
-- **Seaborn**: Statistical data visualization
-- **Matplotlib**: Graphics and plotting library
-
-### 🖥️ Interface
-- **Tkinter**: Python GUI framework
-- **Joblib**: Model serialization
-
-## 🚀 Installation
-
-### Requirements
-```bash
-pip install pandas numpy scikit-learn seaborn matplotlib imbalanced-learn joblib
+```text
+Dataset → Preprocessing → Feature Engineering → Model Training (XGBoost)
+                                                          ↓
+PostgreSQL ← FastAPI (Model Serving) ← Streamlit Dashboard (Analytics & UI)
 ```
 
-### Project Setup
-1. Clone the project:
-```bash
-git clone [repository-url]
-cd BankCustomerChurnPrediction
+## Architecture Layers
+
+### 1. Machine Learning Layer
+
+* Data preprocessing
+* Feature engineering
+* Model training and optimization
+* Explainable AI (SHAP)
+
+### 2. FastAPI Backend
+
+* RESTful API services
+* Model inference endpoints
+* PostgreSQL integration
+* Prediction history management
+
+### 3. Streamlit Dashboard
+
+* Interactive customer churn predictions
+* Model performance monitoring
+* Business analytics and reporting
+
+### 4. PostgreSQL Database
+
+* Prediction records
+* Model performance metrics
+* Historical data storage
+
+---
+
+# 🛠️ Technology Stack
+
+## Machine Learning & Data Science
+
+* **Python** – Core programming language
+* **Pandas & NumPy** – Data manipulation and numerical computing
+* **Scikit-Learn** – Data preprocessing and ML utilities
+* **XGBoost** – Gradient boosting model for churn prediction
+* **SHAP** – Model interpretability and explainability
+* **Imbalanced-Learn** – Class imbalance handling using SMOTE
+
+## Backend Development
+
+* **FastAPI** – High-performance asynchronous web framework
+* **Uvicorn** – ASGI server
+* **SQLAlchemy** – ORM and database management
+* **Pydantic** – Data validation and serialization
+* **psycopg2** – PostgreSQL adapter
+
+## Dashboard & Visualization
+
+* **Streamlit** – Interactive web dashboard framework
+* **Plotly** – Interactive visualizations
+* **Matplotlib & Seaborn** – Statistical data visualization
+
+## Deployment & Infrastructure
+
+* **Docker** – Containerization
+* **Docker Compose** – Multi-container orchestration
+* **PostgreSQL** – Relational database management system
+
+---
+
+# 📁 Project Structure
+
+```text
+bank-customer-churn-prediction/
+│
+├── data/
+│   └── raw/
+│       └── ChurnModel.csv
+│
+├── models/
+│   ├── xgboost_model.pkl
+│   ├── scaler.pkl
+│   └── shap_explainer.pkl
+│
+├── src/
+│   ├── preprocessing.py
+│   ├── feature_engineering.py
+│   ├── train.py
+│   ├── explain.py
+│   └── db.py
+│
+├── api/
+│   └── main.py
+│
+├── dashboard/
+│   └── app.py
+│
+├── notebooks/
+│   └── customerPrediction.ipynb
+│
+├── Dockerfile
+├── docker-compose.yml
+├── requirements.txt
+└── README.md
 ```
 
-2. Install required libraries:
+---
+
+# 🚀 Installation
+
+## 1. Clone the Repository
+
+```bash
+git clone <repository-url>
+cd bank-customer-churn-prediction
+```
+
+## 2. Create a Virtual Environment
+
+```bash
+python -m venv venv
+```
+
+### Linux / macOS
+
+```bash
+source venv/bin/activate
+```
+
+### Windows
+
+```bash
+venv\Scripts\activate
+```
+
+## 3. Install Dependencies
+
 ```bash
 pip install -r requirements.txt
 ```
 
-3. Place the dataset (`ChurnModel.csv`) in the project directory
+## 4. Configure Environment Variables
 
-## 📖 Usage
+Create a `.env` file based on `.env.example`:
 
-### Analysis with Jupyter Notebook
+```env
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=churn_db
+DB_USER=postgres
+DB_PASSWORD=postgres
+
+MODEL_PATH=models/xgboost_model.pkl
+SCALER_PATH=models/scaler.pkl
+EXPLAINER_PATH=models/shap_explainer.pkl
+
+API_URL=http://localhost:8000
+```
+
+---
+
+# 📊 Machine Learning Workflow
+
+## 1. Exploratory Data Analysis (EDA)
+
+* Data profiling and descriptive statistics
+* Missing value analysis
+* Categorical feature distribution analysis
+* Target variable distribution assessment
+* Class imbalance investigation
+
+## 2. Feature Engineering
+
+* Removal of non-informative columns:
+
+  * RowNumber
+  * CustomerId
+  * Surname
+* One-Hot Encoding:
+
+  * Geography
+  * Gender
+* Optional engineered features:
+
+  * age_group
+  * balance_ratio
+  * activity_score
+
+## 3. Class Imbalance Handling
+
+* Synthetic Minority Oversampling Technique (SMOTE)
+* Balanced training dataset generation
+
+## 4. Baseline Model
+
+**Logistic Regression**
+
+Evaluation metrics:
+
+* Accuracy
+* Precision
+* Recall
+* F1-Score
+
+## 5. Final Model
+
+**XGBoost Classifier**
+
+Optimization techniques:
+
+* RandomizedSearchCV
+* Hyperparameter tuning
+* Stratified Cross-Validation
+* ROC-AUC optimization
+
+## 6. Model Evaluation
+
+* Accuracy
+* Precision
+* Recall
+* F1-Score
+* ROC-AUC
+* Confusion Matrix
+* Classification Report
+
+## 7. Explainable AI
+
+Using SHAP:
+
+* Global feature importance analysis
+* Local prediction explanations
+* Individual customer-level interpretability
+
+---
+
+# 🎯 Usage
+
+## Train the Model
+
 ```bash
-jupyter notebook customerPrediction.ipynb
+python src/train.py
 ```
 
-### Prediction with GUI Application
+This process will:
+
+* Load and preprocess the dataset
+* Train a Logistic Regression baseline model
+* Train and optimize the XGBoost model
+* Persist trained artifacts to the `models/` directory
+* Optionally store evaluation metrics in PostgreSQL
+
+---
+
+## Run the API
+
+### Local Environment
+
 ```bash
-python customerPrediction.ipynb
+uvicorn api.main:app --reload
 ```
 
-Enter the following information in the GUI application:
-- **CreditScore**: Credit score (0-850)
-- **Age**: Age
-- **Tenure**: Years with the bank
-- **Balance**: Account balance
-- **NumOfProducts**: Number of products used
-- **HasCrCard**: Credit card ownership (0/1)
-- **IsActiveMember**: Active membership status (0/1)
-- **EstimatedSalary**: Estimated salary
-- **Geography**: Geography (1: Germany, 2: Spain, 3: France)
-- **Gender**: Gender (0: Female, 1: Male)
+API Endpoint:
 
-## 📊 Dataset
-
-### Dataset Characteristics
-- **Total Records**: 10,000 customers
-- **Number of Features**: 14 columns
-- **Target Variable**: Exited (0: Did not leave, 1: Left)
-
-### Column Descriptions
-| Column | Description | Data Type |
-|--------|-------------|-----------|
-| RowNumber | Row number | int64 |
-| CustomerId | Customer ID | int64 |
-| Surname | Last name | object |
-| CreditScore | Credit score | int64 |
-| Geography | Geography | object |
-| Gender | Gender | object |
-| Age | Age | int64 |
-| Tenure | Tenure | int64 |
-| Balance | Balance | float64 |
-| NumOfProducts | Number of products | int64 |
-| HasCrCard | Credit card ownership | int64 |
-| IsActiveMember | Active membership | int64 |
-| EstimatedSalary | Estimated salary | float64 |
-| Exited | Exit status | int64 |
-
-### Data Distribution
-- **Customers who did not leave**: ~80% (8,000 records)
-- **Customers who left**: ~20% (2,000 records)
-
-## 📈 Model Performance
-
-### Tested Algorithms
-| Model | Accuracy | Precision | Recall | F1-Score |
-|-------|----------|-----------|--------|----------|
-| **Logistic Regression** | 0.85 | 0.82 | 0.78 | 0.80 |
-| **Support Vector Machine** | 0.87 | 0.84 | 0.81 | 0.82 |
-| **K-Nearest Neighbors** | 0.89 | 0.86 | 0.83 | 0.84 |
-| **Decision Tree** | 0.91 | 0.88 | 0.85 | 0.86 |
-| **Random Forest** | 0.93 | 0.90 | 0.87 | 0.88 |
-| **Gradient Boosting** | 0.92 | 0.89 | 0.86 | 0.87 |
-
-### 🏆 Best Model: Random Forest
-- **Accuracy**: 93%
-- **Precision**: 90%
-- **Recall**: 87%
-- **F1-Score**: 88%
-
-## 📁 Project Structure
-
-```
-BankCustomerChurnPrediction/
-│
-├── 📄 customerPrediction.ipynb    # Main analysis and model training
-├── 📄 ChurnModel.csv              # Dataset
-├── 📄 churn_predict_model          # Trained model file
-├── 📄 README.md                   # Project documentation
-└── 📄 requirements.txt            # Required libraries
+```text
+http://localhost:8000
 ```
 
-## 🔧 Technical Details
+### Docker Deployment
 
-### Data Preprocessing
-1. **Removal of Unnecessary Columns**: RowNumber, CustomerId, Surname
-2. **Categorical Data Encoding**: One-Hot Encoding (Geography, Gender)
-3. **SMOTE Application**: Balancing of imbalanced dataset
-4. **Feature Scaling**: Normalization with StandardScaler
+```bash
+docker-compose up --build
+```
 
-### Model Training
-- **Data Split**: 80% training, 20% test
-- **Stratified Split**: Preservation of class distribution
-- **Cross-Validation**: Validation of model performance
+---
 
-### Model Evaluation
-- **Accuracy**: Overall accuracy rate
-- **Precision**: Accuracy of positive predictions
-- **Recall**: Capture rate of true positives
-- **F1-Score**: Harmonic mean of Precision and Recall
+## Launch the Dashboard
 
-## 🎯 Results
+```bash
+streamlit run dashboard/app.py
+```
 
-### Achievements
-✅ **High Accuracy**: Reliable predictions with 93% accuracy  
-✅ **Balanced Performance**: Good balance between Precision and Recall  
-✅ **User-Friendly**: Simple and understandable GUI interface  
-✅ **Scalable**: Easily updatable with new data  
+Dashboard URL:
 
-### Use Cases
-- **Risk Management**: Identification of high-risk customers
-- **Customer Satisfaction**: Proactive customer services
-- **Marketing Strategy**: Targeted campaigns
-- **Operational Optimization**: Resource allocation
+```text
+http://localhost:8501
+```
 
+---
 
+# 📡 API Endpoints
 
+| Method | Endpoint   | Description                       |
+| ------ | ---------- | --------------------------------- |
+| GET    | `/`        | API information                   |
+| GET    | `/health`  | Health check                      |
+| POST   | `/predict` | Customer churn prediction         |
+| GET    | `/metrics` | Model performance metrics         |
+| POST   | `/explain` | SHAP-based prediction explanation |
+| GET    | `/docs`    | Swagger/OpenAPI documentation     |
 
+---
 
+## Sample Prediction Request
+
+### POST /predict
+
+```json
+{
+  "creditScore": 619,
+  "age": 42,
+  "tenure": 2,
+  "balance": 0.0,
+  "numOfProducts": 1,
+  "hasCrCard": 1,
+  "isActiveMember": 1,
+  "estimatedSalary": 101348.88,
+  "geography": "France",
+  "gender": "Female"
+}
+```
+
+### Response
+
+```json
+{
+  "prediction": 1,
+  "probability": 0.87,
+  "riskScore": "HIGH"
+}
+```
+
+---
+
+# 📊 Dashboard Features
+
+## Customer Prediction
+
+* Individual customer churn prediction
+* Risk score classification (Low / Medium / High)
+* Churn probability visualization
+* SHAP waterfall plots for prediction explanation
+
+## Model Performance Monitoring
+
+* Accuracy
+* Precision
+* Recall
+* F1-Score
+* ROC-AUC
+* ROC Curve
+* Confusion Matrix
+
+## Business Analytics
+
+* Historical prediction records
+* Risk distribution analysis
+* Feature importance visualization
+* Customer behavior insights
+
+---
+
+# 🗄️ PostgreSQL Database
+
+## predictions
+
+| Column         | Type      |
+| -------------- | --------- |
+| id             | PK        |
+| input_features | JSON      |
+| prediction     | INT       |
+| probability    | FLOAT     |
+| created_at     | TIMESTAMP |
+
+## model_metrics
+
+| Column     | Type      |
+| ---------- | --------- |
+| id         | PK        |
+| accuracy   | FLOAT     |
+| precision  | FLOAT     |
+| recall     | FLOAT     |
+| f1_score   | FLOAT     |
+| roc_auc    | FLOAT     |
+| created_at | TIMESTAMP |
+
+### Database Initialization
+
+```python
+from src.db import initDatabase
+
+initDatabase()
+```
+
+---
+
+# 🐳 Docker Deployment
+
+## Docker Compose
+
+```bash
+docker-compose up --build
+```
+
+This command:
+
+* Starts PostgreSQL
+* Starts FastAPI
+* Creates an internal network between services
+
+## Manual Docker Deployment
+
+### Build
+
+```bash
+docker build -t churn-api .
+```
+
+### Run
+
+```bash
+docker run -p 8000:8000 churn-api
+```
+
+---
+
+# 📈 Expected Model Performance
+
+### XGBoost (Reference Results)
+
+| Metric    | Score |
+| --------- | ----- |
+| Accuracy  | ~0.85 |
+| Precision | ~0.85 |
+| Recall    | ~0.87 |
+| F1-Score  | ~0.86 |
+| ROC-AUC   | ~0.92 |
+
+> Actual results may vary depending on dataset splits, feature engineering strategies, and hyperparameter configurations.
+
+---
+
+# 🔧 Technical Highlights
+
+## Data Preprocessing Pipeline
+
+1. Removal of irrelevant features
+2. Categorical encoding
+3. Class imbalance mitigation using SMOTE
+4. Feature scaling with StandardScaler
+
+## Training Strategy
+
+* 80/20 Train-Test Split
+* Stratified Sampling
+* 5-Fold Cross Validation
+* Randomized Hyperparameter Search
+
+---
+
+# 🎯 Skills Demonstrated
+
+* ✅ End-to-End Machine Learning Pipeline Development
+* ✅ Explainable AI (SHAP)
+* ✅ Production-Ready REST API Development
+* ✅ Model Serving and Deployment
+* ✅ Docker Containerization
+* ✅ PostgreSQL Integration
+* ✅ Interactive Business Intelligence Dashboard
+* ✅ Applied MLOps Foundations
+
+---
+
+# 🔮 Future Enhancements
+
+* MLflow integration for model versioning
+* CI/CD pipelines with GitHub Actions
+* Model drift detection and monitoring
+* A/B testing framework
+* Real-time prediction streaming
+* Advanced feature engineering pipelines
+* Feature Store integration
+* Cloud-native deployment architecture
