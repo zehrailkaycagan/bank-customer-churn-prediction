@@ -192,7 +192,12 @@ secrets.json
 .env.production
 
 # Model artifacts and checkpoints
-models/
+models/*.pkl
+models/*.joblib
+models/*.h5
+models/*.hdf5
+models/*.model
+!models/.gitkeep
 checkpoints/
 artifacts/
 experiments/
@@ -201,4 +206,31 @@ experiments/
 # *.ipynb
 
 # Project specific
-# Add any project-specific files or directories here
+# Environment variables
+.env
+.env.local
+
+# Model files
+models/*.pkl
+models/*.joblib
+models/*.h5
+
+# Logs
+logs/
+*.log
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Data (uncomment if you don't want to track data)
+# data/raw/*.csv

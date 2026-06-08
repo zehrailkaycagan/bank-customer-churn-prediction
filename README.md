@@ -1,208 +1,356 @@
-# 🏦 Bank Customer Churn Prediction
+# 🏦 Bank Customer Churn Decision Support System
 
-This project is a comprehensive system that predicts the likelihood of bank customers leaving using machine learning algorithms. The project includes data analysis, model training, and a user-friendly GUI interface.
+Bu proje, banka müşterilerinin churn (bankadan ayrılma) olasılığını tahmin eden ve karar destek sağlayan uçtan uca bir makine öğrenmesi sistemidir.
 
-## 📋 Table of Contents
+## 🎯 Proje Amacı
 
-- [About the Project](#-about-the-project)
-- [Features](#-features)
-- [Technologies](#-technologies)
-- [Installation](#-installation)
-- [Usage](#-usage)
-- [Dataset](#-dataset)
-- [Model Performance](#-model-performance)
-- [Project Structure](#-project-structure)
-- [Technical Details](#-technical-details)
-- [Results](#-results)
-- [Future Improvements](#-future-improvements)
-- [Contributing](#-contributing)
-- [License](#-license)
-- [Contact](#-contact)
+Bu proje üç farklı role hitap edecek şekilde tasarlanmıştır:
 
-## 🎯 About the Project
+- **Data Scientist** → Güçlü modelleme ve explainability (SHAP)
+- **ML Engineer** → API ve Docker ile model serving
+- **Data Analyst** → Dashboard ve iş içgörüleri
 
-This project compares various machine learning algorithms to predict future customer behavior and selects the best performing model. The system analyzes customer data to determine which customers are most likely to leave the bank.
+## 🏗️ Sistem Mimarisi
 
-### 🎯 Main Objectives
-- Predict customer churn in advance
-- Identify customers at risk
-- Develop customer satisfaction improvement strategies
-- Optimize bank operations
-
-## ✨ Features
-
-### 🔍 Data Analysis
-- **Missing Data Control**: Detection of missing values in the dataset
-- **Statistical Analysis**: Detailed statistical summary of the dataset
-- **Visualization**: Effective charts with Seaborn and Matplotlib
-- **Data Cleaning**: Removal of unnecessary columns
-
-### 🤖 Machine Learning
-- **6 Different Algorithms**: Logistic Regression, SVM, KNN, Decision Tree, Random Forest, Gradient Boosting
-- **SMOTE Technique**: Balancing of imbalanced dataset
-- **Feature Scaling**: Data normalization with StandardScaler
-- **Model Comparison**: Algorithm comparison with performance metrics
-
-### 🖥️ User Interface
-- **Tkinter GUI**: User-friendly graphical interface
-- **Real-time Prediction**: Instant customer churn prediction
-- **Error Management**: Comprehensive error control and user notifications
-- **Model Persistence**: Saving and loading of trained models
-
-## 🛠️ Technologies
-
-### 📊 Data Processing
-- **Pandas**: Data manipulation and analysis
-- **NumPy**: Numerical computations
-- **Scikit-learn**: Machine learning algorithms
-- **Imbalanced-learn**: Imbalanced dataset processing
-
-### 📈 Visualization
-- **Seaborn**: Statistical data visualization
-- **Matplotlib**: Graphics and plotting library
-
-### 🖥️ Interface
-- **Tkinter**: Python GUI framework
-- **Joblib**: Model serialization
-
-## 🚀 Installation
-
-### Requirements
-```bash
-pip install pandas numpy scikit-learn seaborn matplotlib imbalanced-learn joblib
+```
+Dataset → Preprocessing → Feature Engineering → Model Training (XGBoost)
+                                                          ↓
+PostgreSQL ← FastAPI (Model Serving) ← Streamlit Dashboard (Analytics & UI)
 ```
 
-### Project Setup
-1. Clone the project:
-```bash
-git clone [repository-url]
-cd BankCustomerChurnPrediction
+### Mimari Katmanlar
+
+1. **ML Layer**: Model training, evaluation, explainability (SHAP)
+2. **FastAPI Backend**: RESTful API, model serving, PostgreSQL entegrasyonu
+3. **Streamlit Dashboard**: Interaktif analitik ve tahmin arayüzü
+4. **PostgreSQL**: Müşteri verileri, tahmin geçmişi, model metrikleri
+
+## 🛠️ Kullanılan Teknolojiler
+
+### ML & Data
+- **Python**: Ana programlama dili
+- **pandas/numpy**: Veri manipülasyonu ve sayısal hesaplamalar
+- **scikit-learn**: ML algoritmaları ve preprocessing
+- **XGBoost**: Final model (gradient boosting)
+- **SHAP**: Model explainability ve feature importance
+- **imbalanced-learn**: SMOTE ile class imbalance handling
+
+### Backend
+- **FastAPI**: Modern, hızlı web framework (async desteği, otomatik dokümantasyon)
+- **Uvicorn**: ASGI server
+- **SQLAlchemy**: ORM ve veritabanı yönetimi
+- **Pydantic**: Veri validasyonu ve serialization
+- **psycopg2**: PostgreSQL adapter
+
+### Dashboard
+- **Streamlit**: Hızlı dashboard geliştirme
+- **Plotly**: İnteraktif görselleştirmeler
+- **Seaborn/Matplotlib**: İstatistiksel grafikler
+
+### Deployment
+- **Docker**: Containerization
+- **docker-compose**: Multi-container orchestration (API + PostgreSQL)
+
+## 📁 Proje Yapısı
+
+```
+bank-customer-churn-prediction/
+│
+├── data/
+│   └── raw/
+│       └── ChurnModel.csv          # Dataset
+│
+├── models/
+│   ├── xgboost_model.pkl           # XGBoost model
+│   ├── scaler.pkl                  # StandardScaler
+│   └── shap_explainer.pkl          # SHAP explainer
+│
+├── src/
+│   ├── preprocessing.py            # Veri ön işleme
+│   ├── feature_engineering.py     # Feature engineering
+│   ├── train.py                    # Model eğitimi
+│   ├── explain.py                  # SHAP explainability
+│   └── db.py                       # PostgreSQL entegrasyonu
+│
+├── api/
+│   └── main.py                     # FastAPI uygulama
+│
+├── dashboard/
+│   └── app.py                      # Streamlit dashboard
+│
+├── notebooks/
+│   └── customerPrediction.ipynb   # Mevcut analiz notebook'u
+│
+├── Dockerfile                      # API container
+├── docker-compose.yml              # Docker orchestration
+├── requirements.txt                # Python dependencies
+└── README.md                       # Bu dosya
 ```
 
-2. Install required libraries:
+## 🚀 Kurulum
+
+### 1. Repository'yi Klonlayın
+
+```bash
+git clone <repository-url>
+cd bank-customer-churn-prediction
+```
+
+### 2. Virtual Environment Oluşturun
+
+```bash
+python -m venv venv
+source venv/bin/activate  # Linux/Mac
+# veya
+venv\Scripts\activate  # Windows
+```
+
+### 3. Dependencies Yükleyin
+
 ```bash
 pip install -r requirements.txt
 ```
 
-3. Place the dataset (`ChurnModel.csv`) in the project directory
+### 4. Environment Variables Ayarlayın
 
-## 📖 Usage
+`.env` dosyası oluşturun (`.env.example` dosyasını referans alın):
 
-### Analysis with Jupyter Notebook
+```env
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=churn_db
+DB_USER=postgres
+DB_PASSWORD=postgres
+MODEL_PATH=models/xgboost_model.pkl
+SCALER_PATH=models/scaler.pkl
+EXPLAINER_PATH=models/shap_explainer.pkl
+API_URL=http://localhost:8000
+```
+
+## 📊 Makine Öğrenmesi Süreci
+
+### 1. Exploratory Data Analysis (EDA)
+- Veri yapısı ve istatistiksel özet
+- Eksik değer analizi
+- Kategorik değişken dağılımları
+- Target variable dağılımı (class imbalance)
+
+### 2. Feature Engineering
+- Gereksiz kolonların kaldırılması (RowNumber, CustomerId, Surname)
+- Kategorik encoding (One-Hot Encoding: Geography, Gender)
+- Opsiyonel yeni feature'lar (age_group, balance_ratio, activity_score)
+
+### 3. Class Imbalance Handling
+- SMOTE ile oversampling
+- Balanced dataset oluşturma
+
+### 4. Baseline Model
+- Logistic Regression (baseline)
+- Performans metrikleri: Accuracy, Precision, Recall, F1-Score
+
+### 5. Final Model (XGBoost)
+- XGBoostClassifier ile eğitim
+- RandomizedSearchCV ile hyperparameter tuning
+- Cross-validation
+- ROC-AUC optimizasyonu
+
+### 6. Model Evaluation
+- Accuracy, Precision, Recall, F1-Score
+- ROC-AUC score
+- Confusion Matrix
+- Classification Report
+
+### 7. Explainability (SHAP)
+- SHAP TreeExplainer oluşturma
+- Global feature importance
+- Local explanation (tek örnek için)
+
+## 🎯 Kullanım
+
+### Model Eğitimi
+
 ```bash
-jupyter notebook customerPrediction.ipynb
+python src/train.py
 ```
 
-### Prediction with GUI Application
+Bu komut:
+- Veriyi yükler ve ön işler
+- Baseline (Logistic Regression) modelini eğitir
+- XGBoost modelini eğitir ve hyperparameter tuning yapar
+- Modeli `models/` klasörüne kaydeder
+- Metrikleri PostgreSQL'e kaydeder (opsiyonel)
+
+### API'yi Çalıştırma
+
+#### Local
+
 ```bash
-python customerPrediction.ipynb
+uvicorn api.main:app --reload
 ```
 
-Enter the following information in the GUI application:
-- **CreditScore**: Credit score (0-850)
-- **Age**: Age
-- **Tenure**: Years with the bank
-- **Balance**: Account balance
-- **NumOfProducts**: Number of products used
-- **HasCrCard**: Credit card ownership (0/1)
-- **IsActiveMember**: Active membership status (0/1)
-- **EstimatedSalary**: Estimated salary
-- **Geography**: Geography (1: Germany, 2: Spain, 3: France)
-- **Gender**: Gender (0: Female, 1: Male)
+API şu adreste çalışacak: `http://localhost:8000`
 
-## 📊 Dataset
+#### Docker
 
-### Dataset Characteristics
-- **Total Records**: 10,000 customers
-- **Number of Features**: 14 columns
-- **Target Variable**: Exited (0: Did not leave, 1: Left)
-
-### Column Descriptions
-| Column | Description | Data Type |
-|--------|-------------|-----------|
-| RowNumber | Row number | int64 |
-| CustomerId | Customer ID | int64 |
-| Surname | Last name | object |
-| CreditScore | Credit score | int64 |
-| Geography | Geography | object |
-| Gender | Gender | object |
-| Age | Age | int64 |
-| Tenure | Tenure | int64 |
-| Balance | Balance | float64 |
-| NumOfProducts | Number of products | int64 |
-| HasCrCard | Credit card ownership | int64 |
-| IsActiveMember | Active membership | int64 |
-| EstimatedSalary | Estimated salary | float64 |
-| Exited | Exit status | int64 |
-
-### Data Distribution
-- **Customers who did not leave**: ~80% (8,000 records)
-- **Customers who left**: ~20% (2,000 records)
-
-## 📈 Model Performance
-
-### Tested Algorithms
-| Model | Accuracy | Precision | Recall | F1-Score |
-|-------|----------|-----------|--------|----------|
-| **Logistic Regression** | 0.85 | 0.82 | 0.78 | 0.80 |
-| **Support Vector Machine** | 0.87 | 0.84 | 0.81 | 0.82 |
-| **K-Nearest Neighbors** | 0.89 | 0.86 | 0.83 | 0.84 |
-| **Decision Tree** | 0.91 | 0.88 | 0.85 | 0.86 |
-| **Random Forest** | 0.93 | 0.90 | 0.87 | 0.88 |
-| **Gradient Boosting** | 0.92 | 0.89 | 0.86 | 0.87 |
-
-### 🏆 Best Model: Random Forest
-- **Accuracy**: 93%
-- **Precision**: 90%
-- **Recall**: 87%
-- **F1-Score**: 88%
-
-## 📁 Project Structure
-
-```
-BankCustomerChurnPrediction/
-│
-├── 📄 customerPrediction.ipynb    # Main analysis and model training
-├── 📄 ChurnModel.csv              # Dataset
-├── 📄 churn_predict_model          # Trained model file
-├── 📄 README.md                   # Project documentation
-└── 📄 requirements.txt            # Required libraries
+```bash
+docker-compose up --build
 ```
 
-## 🔧 Technical Details
+### Dashboard'u Çalıştırma
+
+```bash
+streamlit run dashboard/app.py
+```
+
+Dashboard şu adreste çalışacak: `http://localhost:8501`
+
+## 📡 API Endpoint'leri
+
+| Method | Endpoint | Açıklama |
+|--------|----------|----------|
+| GET | `/` | API bilgileri |
+| GET | `/health` | Health check |
+| POST | `/predict` | Tek müşteri için churn tahmini |
+| GET | `/metrics` | Model performans metrikleri |
+| POST | `/explain` | SHAP ile tahmin açıklaması |
+| GET | `/docs` | Swagger UI (otomatik) |
+
+### Örnek Request
+
+**POST /predict**
+
+```json
+{
+  "creditScore": 619,
+  "age": 42,
+  "tenure": 2,
+  "balance": 0.0,
+  "numOfProducts": 1,
+  "hasCrCard": 1,
+  "isActiveMember": 1,
+  "estimatedSalary": 101348.88,
+  "geography": "France",
+  "gender": "Female"
+}
+```
+
+**Response**
+
+```json
+{
+  "prediction": 1,
+  "probability": 0.87,
+  "riskScore": "HIGH"
+}
+```
+
+## 📊 Dashboard Özellikleri
+
+### 1. Prediction Page
+- Tekil müşteri tahmini formu
+- Risk skoru gösterimi (LOW/MEDIUM/HIGH)
+- Tahmin olasılığı (probability)
+- SHAP waterfall plot (individual explanation)
+
+### 2. Model Performance Page
+- Model performans metrikleri (Accuracy, Precision, Recall, F1-Score, ROC-AUC)
+- ROC eğrisi
+- Confusion matrix
+
+### 3. Analytics Page
+- Geçmiş tahminler
+- Risk dağılım grafiği
+- Feature importance grafiği
+
+## 🗄️ PostgreSQL Veritabanı
+
+### Tablolar
+
+1. **predictions**
+   - id (PK)
+   - input_features (JSON)
+   - prediction (INT)
+   - probability (FLOAT)
+   - created_at (TIMESTAMP)
+
+2. **model_metrics**
+   - id (PK)
+   - accuracy, precision, recall, f1_score, roc_auc (FLOAT)
+   - created_at (TIMESTAMP)
+
+### Veritabanı Başlatma
+
+```python
+from src.db import initDatabase
+initDatabase()
+```
+
+## 🐳 Docker Deployment
+
+### Docker Compose ile Çalıştırma
+
+```bash
+docker-compose up --build
+```
+
+Bu komut:
+- PostgreSQL container'ını başlatır
+- FastAPI container'ını başlatır
+- İki servis arasında network oluşturur
+
+### Manuel Docker
+
+```bash
+# Build
+docker build -t churn-api .
+
+# Run
+docker run -p 8000:8000 churn-api
+```
+
+## 📈 Model Performans
+
+### XGBoost Model Metrikleri (Örnek)
+
+- **Accuracy**: ~0.85
+- **Precision**: ~0.85
+- **Recall**: ~0.87
+- **F1-Score**: ~0.86
+- **ROC-AUC**: ~0.92
+
+*Not: Gerçek metrikler model eğitimi sonrası belirlenir.*
+
+## 🔧 Teknik Detaylar
 
 ### Data Preprocessing
-1. **Removal of Unnecessary Columns**: RowNumber, CustomerId, Surname
-2. **Categorical Data Encoding**: One-Hot Encoding (Geography, Gender)
-3. **SMOTE Application**: Balancing of imbalanced dataset
-4. **Feature Scaling**: Normalization with StandardScaler
+1. Gereksiz kolonların kaldırılması (RowNumber, CustomerId, Surname)
+2. Kategorik encoding (One-Hot Encoding: Geography, Gender)
+3. SMOTE ile class imbalance çözümü
+4. Feature scaling (StandardScaler)
 
 ### Model Training
 - **Data Split**: 80% training, 20% test
-- **Stratified Split**: Preservation of class distribution
-- **Cross-Validation**: Validation of model performance
+- **Stratified Split**: Class distribution korunur
+- **Cross-Validation**: 5-fold CV
+- **Hyperparameter Tuning**: RandomizedSearchCV
 
-### Model Evaluation
-- **Accuracy**: Overall accuracy rate
-- **Precision**: Accuracy of positive predictions
-- **Recall**: Capture rate of true positives
-- **F1-Score**: Harmonic mean of Precision and Recall
+## 🎯 Projenin Sağladığı Yetkinlikler
 
-## 🎯 Results
+- ✅ End-to-End ML Pipeline
+- ✅ Explainable AI Implementation (SHAP)
+- ✅ REST API Development (FastAPI)
+- ✅ Model Serving with Docker
+- ✅ Business-Oriented Dashboard (Streamlit)
+- ✅ PostgreSQL Integration
+- ✅ Production-Ready Code Structure
 
-### Achievements
-✅ **High Accuracy**: Reliable predictions with 93% accuracy  
-✅ **Balanced Performance**: Good balance between Precision and Recall  
-✅ **User-Friendly**: Simple and understandable GUI interface  
-✅ **Scalable**: Easily updatable with new data  
+## 🔮 Gelecek Geliştirmeler
 
-### Use Cases
-- **Risk Management**: Identification of high-risk customers
-- **Customer Satisfaction**: Proactive customer services
-- **Marketing Strategy**: Targeted campaigns
-- **Operational Optimization**: Resource allocation
-
-
-
+- Model versioning (MLflow entegrasyonu)
+- CI/CD pipeline (GitHub Actions)
+- Model drift monitoring
+- A/B testing framework
+- Real-time prediction streaming
+- Advanced feature engineering (feature stores)
 
 
