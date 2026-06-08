@@ -1,119 +1,164 @@
 # 🏦 Bank Customer Churn Decision Support System
 
-Bu proje, banka müşterilerinin churn (bankadan ayrılma) olasılığını tahmin eden ve karar destek sağlayan uçtan uca bir makine öğrenmesi sistemidir.
+An end-to-end machine learning solution designed to predict customer churn in the banking sector and provide actionable business insights through explainable AI, model serving APIs, and interactive analytics dashboards.
 
-## 🎯 Proje Amacı
+---
 
-Bu proje üç farklı role hitap edecek şekilde tasarlanmıştır:
+# 🎯 Project Objective
 
-- **Data Scientist** → Güçlü modelleme ve explainability (SHAP)
-- **ML Engineer** → API ve Docker ile model serving
-- **Data Analyst** → Dashboard ve iş içgörüleri
+This project is designed to demonstrate competencies across three key professional roles:
 
-## 🏗️ Sistem Mimarisi
+* **Data Scientist** → Advanced predictive modeling, explainability, and model evaluation
+* **Machine Learning Engineer** → Model deployment, API development, and containerization
+* **Data Analyst** → Business intelligence, visualization, and decision support dashboards
 
-```
+---
+
+# 🏗️ System Architecture
+
+```text
 Dataset → Preprocessing → Feature Engineering → Model Training (XGBoost)
                                                           ↓
 PostgreSQL ← FastAPI (Model Serving) ← Streamlit Dashboard (Analytics & UI)
 ```
 
-### Mimari Katmanlar
+## Architecture Layers
 
-1. **ML Layer**: Model training, evaluation, explainability (SHAP)
-2. **FastAPI Backend**: RESTful API, model serving, PostgreSQL entegrasyonu
-3. **Streamlit Dashboard**: Interaktif analitik ve tahmin arayüzü
-4. **PostgreSQL**: Müşteri verileri, tahmin geçmişi, model metrikleri
+### 1. Machine Learning Layer
 
-## 🛠️ Kullanılan Teknolojiler
+* Data preprocessing
+* Feature engineering
+* Model training and optimization
+* Explainable AI (SHAP)
 
-### ML & Data
-- **Python**: Ana programlama dili
-- **pandas/numpy**: Veri manipülasyonu ve sayısal hesaplamalar
-- **scikit-learn**: ML algoritmaları ve preprocessing
-- **XGBoost**: Final model (gradient boosting)
-- **SHAP**: Model explainability ve feature importance
-- **imbalanced-learn**: SMOTE ile class imbalance handling
+### 2. FastAPI Backend
 
-### Backend
-- **FastAPI**: Modern, hızlı web framework (async desteği, otomatik dokümantasyon)
-- **Uvicorn**: ASGI server
-- **SQLAlchemy**: ORM ve veritabanı yönetimi
-- **Pydantic**: Veri validasyonu ve serialization
-- **psycopg2**: PostgreSQL adapter
+* RESTful API services
+* Model inference endpoints
+* PostgreSQL integration
+* Prediction history management
 
-### Dashboard
-- **Streamlit**: Hızlı dashboard geliştirme
-- **Plotly**: İnteraktif görselleştirmeler
-- **Seaborn/Matplotlib**: İstatistiksel grafikler
+### 3. Streamlit Dashboard
 
-### Deployment
-- **Docker**: Containerization
-- **docker-compose**: Multi-container orchestration (API + PostgreSQL)
+* Interactive customer churn predictions
+* Model performance monitoring
+* Business analytics and reporting
 
-## 📁 Proje Yapısı
+### 4. PostgreSQL Database
 
-```
+* Prediction records
+* Model performance metrics
+* Historical data storage
+
+---
+
+# 🛠️ Technology Stack
+
+## Machine Learning & Data Science
+
+* **Python** – Core programming language
+* **Pandas & NumPy** – Data manipulation and numerical computing
+* **Scikit-Learn** – Data preprocessing and ML utilities
+* **XGBoost** – Gradient boosting model for churn prediction
+* **SHAP** – Model interpretability and explainability
+* **Imbalanced-Learn** – Class imbalance handling using SMOTE
+
+## Backend Development
+
+* **FastAPI** – High-performance asynchronous web framework
+* **Uvicorn** – ASGI server
+* **SQLAlchemy** – ORM and database management
+* **Pydantic** – Data validation and serialization
+* **psycopg2** – PostgreSQL adapter
+
+## Dashboard & Visualization
+
+* **Streamlit** – Interactive web dashboard framework
+* **Plotly** – Interactive visualizations
+* **Matplotlib & Seaborn** – Statistical data visualization
+
+## Deployment & Infrastructure
+
+* **Docker** – Containerization
+* **Docker Compose** – Multi-container orchestration
+* **PostgreSQL** – Relational database management system
+
+---
+
+# 📁 Project Structure
+
+```text
 bank-customer-churn-prediction/
 │
 ├── data/
 │   └── raw/
-│       └── ChurnModel.csv          # Dataset
+│       └── ChurnModel.csv
 │
 ├── models/
-│   ├── xgboost_model.pkl           # XGBoost model
-│   ├── scaler.pkl                  # StandardScaler
-│   └── shap_explainer.pkl          # SHAP explainer
+│   ├── xgboost_model.pkl
+│   ├── scaler.pkl
+│   └── shap_explainer.pkl
 │
 ├── src/
-│   ├── preprocessing.py            # Veri ön işleme
-│   ├── feature_engineering.py     # Feature engineering
-│   ├── train.py                    # Model eğitimi
-│   ├── explain.py                  # SHAP explainability
-│   └── db.py                       # PostgreSQL entegrasyonu
+│   ├── preprocessing.py
+│   ├── feature_engineering.py
+│   ├── train.py
+│   ├── explain.py
+│   └── db.py
 │
 ├── api/
-│   └── main.py                     # FastAPI uygulama
+│   └── main.py
 │
 ├── dashboard/
-│   └── app.py                      # Streamlit dashboard
+│   └── app.py
 │
 ├── notebooks/
-│   └── customerPrediction.ipynb   # Mevcut analiz notebook'u
+│   └── customerPrediction.ipynb
 │
-├── Dockerfile                      # API container
-├── docker-compose.yml              # Docker orchestration
-├── requirements.txt                # Python dependencies
-└── README.md                       # Bu dosya
+├── Dockerfile
+├── docker-compose.yml
+├── requirements.txt
+└── README.md
 ```
 
-## 🚀 Kurulum
+---
 
-### 1. Repository'yi Klonlayın
+# 🚀 Installation
+
+## 1. Clone the Repository
 
 ```bash
 git clone <repository-url>
 cd bank-customer-churn-prediction
 ```
 
-### 2. Virtual Environment Oluşturun
+## 2. Create a Virtual Environment
 
 ```bash
 python -m venv venv
-source venv/bin/activate  # Linux/Mac
-# veya
-venv\Scripts\activate  # Windows
 ```
 
-### 3. Dependencies Yükleyin
+### Linux / macOS
+
+```bash
+source venv/bin/activate
+```
+
+### Windows
+
+```bash
+venv\Scripts\activate
+```
+
+## 3. Install Dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 4. Environment Variables Ayarlayın
+## 4. Configure Environment Variables
 
-`.env` dosyası oluşturun (`.env.example` dosyasını referans alın):
+Create a `.env` file based on `.env.example`:
 
 ```env
 DB_HOST=localhost
@@ -121,103 +166,160 @@ DB_PORT=5432
 DB_NAME=churn_db
 DB_USER=postgres
 DB_PASSWORD=postgres
+
 MODEL_PATH=models/xgboost_model.pkl
 SCALER_PATH=models/scaler.pkl
 EXPLAINER_PATH=models/shap_explainer.pkl
+
 API_URL=http://localhost:8000
 ```
 
-## 📊 Makine Öğrenmesi Süreci
+---
 
-### 1. Exploratory Data Analysis (EDA)
-- Veri yapısı ve istatistiksel özet
-- Eksik değer analizi
-- Kategorik değişken dağılımları
-- Target variable dağılımı (class imbalance)
+# 📊 Machine Learning Workflow
 
-### 2. Feature Engineering
-- Gereksiz kolonların kaldırılması (RowNumber, CustomerId, Surname)
-- Kategorik encoding (One-Hot Encoding: Geography, Gender)
-- Opsiyonel yeni feature'lar (age_group, balance_ratio, activity_score)
+## 1. Exploratory Data Analysis (EDA)
 
-### 3. Class Imbalance Handling
-- SMOTE ile oversampling
-- Balanced dataset oluşturma
+* Data profiling and descriptive statistics
+* Missing value analysis
+* Categorical feature distribution analysis
+* Target variable distribution assessment
+* Class imbalance investigation
 
-### 4. Baseline Model
-- Logistic Regression (baseline)
-- Performans metrikleri: Accuracy, Precision, Recall, F1-Score
+## 2. Feature Engineering
 
-### 5. Final Model (XGBoost)
-- XGBoostClassifier ile eğitim
-- RandomizedSearchCV ile hyperparameter tuning
-- Cross-validation
-- ROC-AUC optimizasyonu
+* Removal of non-informative columns:
 
-### 6. Model Evaluation
-- Accuracy, Precision, Recall, F1-Score
-- ROC-AUC score
-- Confusion Matrix
-- Classification Report
+  * RowNumber
+  * CustomerId
+  * Surname
+* One-Hot Encoding:
 
-### 7. Explainability (SHAP)
-- SHAP TreeExplainer oluşturma
-- Global feature importance
-- Local explanation (tek örnek için)
+  * Geography
+  * Gender
+* Optional engineered features:
 
-## 🎯 Kullanım
+  * age_group
+  * balance_ratio
+  * activity_score
 
-### Model Eğitimi
+## 3. Class Imbalance Handling
+
+* Synthetic Minority Oversampling Technique (SMOTE)
+* Balanced training dataset generation
+
+## 4. Baseline Model
+
+**Logistic Regression**
+
+Evaluation metrics:
+
+* Accuracy
+* Precision
+* Recall
+* F1-Score
+
+## 5. Final Model
+
+**XGBoost Classifier**
+
+Optimization techniques:
+
+* RandomizedSearchCV
+* Hyperparameter tuning
+* Stratified Cross-Validation
+* ROC-AUC optimization
+
+## 6. Model Evaluation
+
+* Accuracy
+* Precision
+* Recall
+* F1-Score
+* ROC-AUC
+* Confusion Matrix
+* Classification Report
+
+## 7. Explainable AI
+
+Using SHAP:
+
+* Global feature importance analysis
+* Local prediction explanations
+* Individual customer-level interpretability
+
+---
+
+# 🎯 Usage
+
+## Train the Model
 
 ```bash
 python src/train.py
 ```
 
-Bu komut:
-- Veriyi yükler ve ön işler
-- Baseline (Logistic Regression) modelini eğitir
-- XGBoost modelini eğitir ve hyperparameter tuning yapar
-- Modeli `models/` klasörüne kaydeder
-- Metrikleri PostgreSQL'e kaydeder (opsiyonel)
+This process will:
 
-### API'yi Çalıştırma
+* Load and preprocess the dataset
+* Train a Logistic Regression baseline model
+* Train and optimize the XGBoost model
+* Persist trained artifacts to the `models/` directory
+* Optionally store evaluation metrics in PostgreSQL
 
-#### Local
+---
+
+## Run the API
+
+### Local Environment
 
 ```bash
 uvicorn api.main:app --reload
 ```
 
-API şu adreste çalışacak: `http://localhost:8000`
+API Endpoint:
 
-#### Docker
+```text
+http://localhost:8000
+```
+
+### Docker Deployment
 
 ```bash
 docker-compose up --build
 ```
 
-### Dashboard'u Çalıştırma
+---
+
+## Launch the Dashboard
 
 ```bash
 streamlit run dashboard/app.py
 ```
 
-Dashboard şu adreste çalışacak: `http://localhost:8501`
+Dashboard URL:
 
-## 📡 API Endpoint'leri
+```text
+http://localhost:8501
+```
 
-| Method | Endpoint | Açıklama |
-|--------|----------|----------|
-| GET | `/` | API bilgileri |
-| GET | `/health` | Health check |
-| POST | `/predict` | Tek müşteri için churn tahmini |
-| GET | `/metrics` | Model performans metrikleri |
-| POST | `/explain` | SHAP ile tahmin açıklaması |
-| GET | `/docs` | Swagger UI (otomatik) |
+---
 
-### Örnek Request
+# 📡 API Endpoints
 
-**POST /predict**
+| Method | Endpoint   | Description                       |
+| ------ | ---------- | --------------------------------- |
+| GET    | `/`        | API information                   |
+| GET    | `/health`  | Health check                      |
+| POST   | `/predict` | Customer churn prediction         |
+| GET    | `/metrics` | Model performance metrics         |
+| POST   | `/explain` | SHAP-based prediction explanation |
+| GET    | `/docs`    | Swagger/OpenAPI documentation     |
+
+---
+
+## Sample Prediction Request
+
+### POST /predict
 
 ```json
 {
@@ -234,7 +336,7 @@ Dashboard şu adreste çalışacak: `http://localhost:8501`
 }
 ```
 
-**Response**
+### Response
 
 ```json
 {
@@ -244,113 +346,154 @@ Dashboard şu adreste çalışacak: `http://localhost:8501`
 }
 ```
 
-## 📊 Dashboard Özellikleri
+---
 
-### 1. Prediction Page
-- Tekil müşteri tahmini formu
-- Risk skoru gösterimi (LOW/MEDIUM/HIGH)
-- Tahmin olasılığı (probability)
-- SHAP waterfall plot (individual explanation)
+# 📊 Dashboard Features
 
-### 2. Model Performance Page
-- Model performans metrikleri (Accuracy, Precision, Recall, F1-Score, ROC-AUC)
-- ROC eğrisi
-- Confusion matrix
+## Customer Prediction
 
-### 3. Analytics Page
-- Geçmiş tahminler
-- Risk dağılım grafiği
-- Feature importance grafiği
+* Individual customer churn prediction
+* Risk score classification (Low / Medium / High)
+* Churn probability visualization
+* SHAP waterfall plots for prediction explanation
 
-## 🗄️ PostgreSQL Veritabanı
+## Model Performance Monitoring
 
-### Tablolar
+* Accuracy
+* Precision
+* Recall
+* F1-Score
+* ROC-AUC
+* ROC Curve
+* Confusion Matrix
 
-1. **predictions**
-   - id (PK)
-   - input_features (JSON)
-   - prediction (INT)
-   - probability (FLOAT)
-   - created_at (TIMESTAMP)
+## Business Analytics
 
-2. **model_metrics**
-   - id (PK)
-   - accuracy, precision, recall, f1_score, roc_auc (FLOAT)
-   - created_at (TIMESTAMP)
+* Historical prediction records
+* Risk distribution analysis
+* Feature importance visualization
+* Customer behavior insights
 
-### Veritabanı Başlatma
+---
+
+# 🗄️ PostgreSQL Database
+
+## predictions
+
+| Column         | Type      |
+| -------------- | --------- |
+| id             | PK        |
+| input_features | JSON      |
+| prediction     | INT       |
+| probability    | FLOAT     |
+| created_at     | TIMESTAMP |
+
+## model_metrics
+
+| Column     | Type      |
+| ---------- | --------- |
+| id         | PK        |
+| accuracy   | FLOAT     |
+| precision  | FLOAT     |
+| recall     | FLOAT     |
+| f1_score   | FLOAT     |
+| roc_auc    | FLOAT     |
+| created_at | TIMESTAMP |
+
+### Database Initialization
 
 ```python
 from src.db import initDatabase
+
 initDatabase()
 ```
 
-## 🐳 Docker Deployment
+---
 
-### Docker Compose ile Çalıştırma
+# 🐳 Docker Deployment
+
+## Docker Compose
 
 ```bash
 docker-compose up --build
 ```
 
-Bu komut:
-- PostgreSQL container'ını başlatır
-- FastAPI container'ını başlatır
-- İki servis arasında network oluşturur
+This command:
 
-### Manuel Docker
+* Starts PostgreSQL
+* Starts FastAPI
+* Creates an internal network between services
+
+## Manual Docker Deployment
+
+### Build
 
 ```bash
-# Build
 docker build -t churn-api .
+```
 
-# Run
+### Run
+
+```bash
 docker run -p 8000:8000 churn-api
 ```
 
-## 📈 Model Performans
+---
 
-### XGBoost Model Metrikleri (Örnek)
+# 📈 Expected Model Performance
 
-- **Accuracy**: ~0.85
-- **Precision**: ~0.85
-- **Recall**: ~0.87
-- **F1-Score**: ~0.86
-- **ROC-AUC**: ~0.92
+### XGBoost (Reference Results)
 
-*Not: Gerçek metrikler model eğitimi sonrası belirlenir.*
+| Metric    | Score |
+| --------- | ----- |
+| Accuracy  | ~0.85 |
+| Precision | ~0.85 |
+| Recall    | ~0.87 |
+| F1-Score  | ~0.86 |
+| ROC-AUC   | ~0.92 |
 
-## 🔧 Teknik Detaylar
+> Actual results may vary depending on dataset splits, feature engineering strategies, and hyperparameter configurations.
 
-### Data Preprocessing
-1. Gereksiz kolonların kaldırılması (RowNumber, CustomerId, Surname)
-2. Kategorik encoding (One-Hot Encoding: Geography, Gender)
-3. SMOTE ile class imbalance çözümü
-4. Feature scaling (StandardScaler)
+---
 
-### Model Training
-- **Data Split**: 80% training, 20% test
-- **Stratified Split**: Class distribution korunur
-- **Cross-Validation**: 5-fold CV
-- **Hyperparameter Tuning**: RandomizedSearchCV
+# 🔧 Technical Highlights
 
-## 🎯 Projenin Sağladığı Yetkinlikler
+## Data Preprocessing Pipeline
 
-- ✅ End-to-End ML Pipeline
-- ✅ Explainable AI Implementation (SHAP)
-- ✅ REST API Development (FastAPI)
-- ✅ Model Serving with Docker
-- ✅ Business-Oriented Dashboard (Streamlit)
-- ✅ PostgreSQL Integration
-- ✅ Production-Ready Code Structure
+1. Removal of irrelevant features
+2. Categorical encoding
+3. Class imbalance mitigation using SMOTE
+4. Feature scaling with StandardScaler
 
-## 🔮 Gelecek Geliştirmeler
+## Training Strategy
 
-- Model versioning (MLflow entegrasyonu)
-- CI/CD pipeline (GitHub Actions)
-- Model drift monitoring
-- A/B testing framework
-- Real-time prediction streaming
-- Advanced feature engineering (feature stores)
+* 80/20 Train-Test Split
+* Stratified Sampling
+* 5-Fold Cross Validation
+* Randomized Hyperparameter Search
 
+---
 
+# 🎯 Skills Demonstrated
+
+* ✅ End-to-End Machine Learning Pipeline Development
+* ✅ Explainable AI (SHAP)
+* ✅ Production-Ready REST API Development
+* ✅ Model Serving and Deployment
+* ✅ Docker Containerization
+* ✅ PostgreSQL Integration
+* ✅ Interactive Business Intelligence Dashboard
+* ✅ Applied MLOps Foundations
+
+---
+
+# 🔮 Future Enhancements
+
+* MLflow integration for model versioning
+* CI/CD pipelines with GitHub Actions
+* Model drift detection and monitoring
+* A/B testing framework
+* Real-time prediction streaming
+* Advanced feature engineering pipelines
+* Feature Store integration
+* Cloud-native deployment architecture
